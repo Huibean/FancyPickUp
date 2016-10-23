@@ -1,25 +1,29 @@
 'use strict';
 
-import ReactNative from 'react-native';
 import React, {Component} from 'react';
 
-import Scene from './imports/Scene';
-
-var {
+import {
   AppRegistry,
   Navigator,
-} = ReactNative;
+  StyleSheet
+} from 'react-native';
+
+import Account from './imports/Account';
 
 class FancyPickUp extends Component {
   render() {
     return (
       <Navigator
         initialRoute={{title: "Sign Up", index: 0}}
-        renderScene={(route, navigator) =>
-          <Scene
-            title={route.title}
-            index={route.index}
-          />
+        renderScene={(route, navigator) => {
+          //_navigator = navigator;
+          switch (route.index) {
+            case 0:
+              return <Account navigator={navigator} action={route.action}/>
+            default:
+              return <Text>No Scene Match, Current index: { route.index }</Text>
+          }
+        }
         }
       />
     )

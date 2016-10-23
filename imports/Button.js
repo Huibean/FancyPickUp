@@ -13,23 +13,25 @@ export default class Button extends Component {
 
   render() {
     return (
+      <View>
       <TouchableHighlight
         onPress={this.props.onPress}
-        style={styles.button}>
-
-        <Text>{this.props.text}</Text>
-
+        style={[styles.button, {backgroundColor: this.props.color || '#32cd32'}]}>
+          <Text style={styles.text}>{this.props.text}</Text>
       </TouchableHighlight>
+      </View>
     )
   }
 }
 
 const styles = StyleSheet.create({
   button: {
-    margin:5,
-    backgroundColor: 'green',
-    padding: 15,
+    padding: 12,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: '#cdcdcd',
+  },
+  text: {
+    textAlign: 'center',
+    fontWeight: 'bold',
+    fontSize: 15
   }
 });
