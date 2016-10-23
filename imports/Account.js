@@ -14,6 +14,7 @@ import {
 import Button from './Button.js';
 
 import { baseUrl } from '../config/environment';
+import { validateEmail } from '../lib/validation';
 import Dimensions from 'Dimensions';
 
 const dimensions = Dimensions.get("window");
@@ -32,7 +33,6 @@ export default class Account extends Component {
   
   focusNextField(nextField) {
     this.refs[nextField].focus();
-    this.setState({inputFouced: false})
   };
 
   handleSignUp() {
@@ -116,7 +116,15 @@ export default class Account extends Component {
 
   goToSignUp() {
     this.setState({action: "SignUp"});
-  }
+  };
+
+  validateEmail() {
+    if(!validateEmail(this.state.email)) {
+      this.setState({error: {email: "电子邮箱格式不对"}})
+    } else {
+      this.setState({error: {email: ""}})
+    }
+  };
 
   render() {
     let emailError;
@@ -186,6 +194,8 @@ export default class Account extends Component {
               onSubmitEditing={() => this.focusNextField('password')}
               keyboardType="email-address"
               returnKeyType="next"
+              blurOnSubmit={true}
+              onBlur={this.validateEmail.bind(this)}
             />
           </View>
           {emailError}
