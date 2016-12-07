@@ -5,25 +5,42 @@ import React, {Component} from 'react';
 import {
   AppRegistry,
   Navigator,
-  StyleSheet
+  StyleSheet,
+  AsyncStorage
 } from 'react-native';
 
 import Account from './imports/Account';
+import App from './imports/App';
+import EditProfile from './imports/EditProfile';
 
 class FancyPickUp extends Component {
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      loading: false,
+      user: null
+    }
+  };
+
   render() {
+    let initialRoute = {index: 1};
+
     return (
       <Navigator
-        initialRoute={{title: "Sign Up", index: 0}}
+        initialRoute={initialRoute}
         renderScene={(route, navigator) => {
-          //_navigator = navigator;
-          switch (route.index) {
-            case 0:
-              return <Account navigator={navigator} action={route.action}/>
-            default:
-              return <Text>No Scene Match, Current index: { route.index }</Text>
+            switch (route.index) {
+              case 0:
+                return <Account navigator={navigator} action={route.action}/>
+              case 1:
+                return <App navigator={navigator} user={route.user}/>
+              case 2:
+                return <EditProfile navigator={navigator} user={route.user}/>
+              default:
+                return <Text>No Scene Match, Current index: { route.index }</Text>
+            }
           }
-        }
         }
       />
     )

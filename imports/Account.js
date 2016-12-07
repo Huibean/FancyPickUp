@@ -8,7 +8,8 @@ import {
   Image,
   KeyboardAvoidingView,
   DeviceEventEmitter,
-  Keyboard
+  Keyboard,
+  AsyncStorage
 } from 'react-native';
 
 import Button from './Button.js';
@@ -38,8 +39,8 @@ export default class Account extends Component {
   handleSignUp() {
     let email = this.state.email
     let password = this.state.password
-    console.log("data:", email, password)
-    let newUser = fetch( baseUrl +'users', {
+    console.log("sign up data:", email, password)
+    fetch( baseUrl +'users', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -49,7 +50,7 @@ export default class Account extends Component {
         email: email,
         password: password,
       })
-    }).then(function(response) {
+    }).then((response) => {
       return response.json()
     }).then((responseJson) => {
       console.log("responseJson:", responseJson)
@@ -59,6 +60,13 @@ export default class Account extends Component {
           email: responseJson["errors"]["email"],
           password: responseJson["errors"]["password"]}
          })
+      } else {
+        let user = responseJson["user"]
+        AsyncStorage.setItem("userId", user._id, (err) => {
+          if(err) return console.error(err)
+          this.props.navigator.push({index: 1, user: user})
+        })
+        this.props.navigator.push({index: 1, user: user})
       }
       return responseJson
     }).catch((error) => {
@@ -69,8 +77,8 @@ export default class Account extends Component {
   handleLogin() {
     let email = this.state.email
     let password = this.state.password
-    console.log("data:", email, password)
-    let newUser = fetch( baseUrl +'users', {
+    console.log("login data:", email, password)
+    fetch( baseUrl +'login', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -80,7 +88,7 @@ export default class Account extends Component {
         email: email,
         password: password,
       })
-    }).then(function(response) {
+    }).then((response) => {
       return response.json()
     }).then((responseJson) => {
       console.log("responseJson:", responseJson)
@@ -90,11 +98,17 @@ export default class Account extends Component {
           email: responseJson["errors"]["email"],
           password: responseJson["errors"]["password"]}
          })
+      } else {
+        let user = responseJson["user"]
+        AsyncStorage.setItem("userId", user._id, (err) => {
+          if(err) return console.error(err)
+          this.props.navigator.push({index: 1, user: user})
+        })
       }
       return responseJson
     }).catch((error) => {
       console.error(error);
-    })  
+    })
   }
 
   componentWillMount() {
