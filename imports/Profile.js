@@ -6,7 +6,7 @@ import {
   StyleSheet,
   Image,
   TouchableHighlight,
-  Button
+  Button,
 } from 'react-native';
 
 import { baseUrl } from '../config/environment';
@@ -20,6 +20,11 @@ export default class Profile extends Component {
   goToEditProfile() {
     let user = this.props.user;
     this.props.navigator.push({index: 2, user: user})
+  };
+
+  goToMatchPage() {
+    let user = this.props.user;
+    this.props.navigator.push({index: 3, user: user})
   };
 
   renderAvatarBox() {
@@ -44,7 +49,8 @@ export default class Profile extends Component {
   };
 
   handleAddRoutes() {
-    alert("add routes")
+    let user = this.props.user;
+    this.props.navigator.push({index: 4, user: user})
   };
 
   renderRoutesInfoBox() {
@@ -60,7 +66,7 @@ export default class Profile extends Component {
           <View>
             <Button
               title="Add"
-              onPress={this.handleAddRoutes}
+              onPress={this.handleAddRoutes.bind(this)}
             />
           </View>
         </View>
@@ -116,7 +122,7 @@ export default class Profile extends Component {
             <Text>no match yet</Text>
           </View>
           <View>
-            <Button title="Pair" onPress={() => { alert("xxx") }}/>
+            <Button title="Add" onPress={this.goToMatchPage.bind(this)}/>
           </View>
         </View>
       </View>
@@ -188,5 +194,5 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: 'space-between',
     alignItems: 'center'
-  }
+  },
 });

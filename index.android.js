@@ -12,6 +12,8 @@ import {
 import Account from './imports/Account';
 import App from './imports/App';
 import EditProfile from './imports/EditProfile';
+import MatchPage from './imports/MatchPage';
+import NewRoute from './imports/NewRoute';
 
 class FancyPickUp extends Component {
 
@@ -37,6 +39,10 @@ class FancyPickUp extends Component {
                 return <App navigator={navigator} user={route.user}/>
               case 2:
                 return <EditProfile navigator={navigator} user={route.user}/>
+              case 3:
+                return <MatchPage navigator={navigator} user={route.user}/>
+              case 4:
+                return <NewRoute navigator={navigator} user={route.user}/>
               default:
                 return <Text>No Scene Match, Current index: { route.index }</Text>
             }
